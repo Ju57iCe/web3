@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import useSWR from "swr"
+import mutate from "swr"
 
 const adminAdresses = {
   "0x339bdac0ae9e5e35aace9f5c6f7b43b124a29ab7366e6eb669a8d2c840983646": true
