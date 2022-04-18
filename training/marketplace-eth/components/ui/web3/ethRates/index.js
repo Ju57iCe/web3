@@ -26,7 +26,7 @@ export default function EthRates() {
         <div className="p-10 border drop-shadow rounded-md">
           <div className="flex items-center">
             <span className="text-2xl font-bold">
-              {eth.ethPerItem}
+              {eth.perItem}
             </span>
             <Image
               layout="fixed"
