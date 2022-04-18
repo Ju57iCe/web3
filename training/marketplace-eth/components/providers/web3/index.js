@@ -42,7 +42,7 @@ export default function Web3Provider({children}) {
 
     return {
       ...web3Api,
-      requireInstall: !isLoading && !web3,
+      requireInstall: !isLoading && !web3 ,
       connect: provider ?
         async () => {
           try {
