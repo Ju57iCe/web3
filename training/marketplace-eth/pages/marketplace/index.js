@@ -24,11 +24,12 @@ export default function Marketplace({courses}) {
       <CourseList
         courses={courses}
       >
-        { (course) =>
-          <CourseCard
-            key={course.id}
-            course={course}/>
-        }
+      {course =>
+        <CourseCard
+          key={course.id}
+          course={course}
+        />
+      }
       </CourseList>
     </>
   )
