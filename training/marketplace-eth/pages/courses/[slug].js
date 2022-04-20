@@ -51,5 +51,6 @@ export function getStaticProps({params}) {
       course
     }
   }
+}
 
 Course.Layout = BaseLayout
