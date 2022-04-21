@@ -6,7 +6,7 @@ const LINKS = [{
   value: "Buy"
 }, {
   href: "/marketplace/courses/owned",
-  value: "My courses"
+  value: "My Courses"
 }, {
   href: "/marketplace/courses/manage",
   value: "Manage Courses"
@@ -15,10 +15,12 @@ const LINKS = [{
 export default function Header() {
   return (
     <>
-      <WalletBar />
+      <div className="pt-4">
+        <WalletBar />
+      </div>
       <EthRates />
-      <div className="flex flex-row-reverse pb-4 px-4 sm:px-6 lg:px-8">
-        <Breadcrumbs items={LINKS}/>
+      <div className="flex flex-row-reverse p-4 sm:px-6 lg:px-8">
+        <Breadcrumbs items={LINKS} />
       </div>
     </>
   )
