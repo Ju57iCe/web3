@@ -1,7 +1,8 @@
 import { useEthPrice } from "@components/hooks/useEthPrice"
 import { useEffect, useState } from "react"
 
-const useCouter = () => {
+
+const useCounter = () => {
   const [count, setCount] = useState(0)
 
   useEffect(() => {
@@ -10,7 +11,8 @@ const useCouter = () => {
     }, 1000)
   }, [])
 
-  console.log("Calling use counter")
+  // console.log("Calling useCounter!")
+
   return count
 }
 

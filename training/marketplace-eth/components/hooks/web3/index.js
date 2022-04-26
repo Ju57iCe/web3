@@ -36,14 +36,6 @@ export const useAccount = () => {
   }
 }
 
-export const useManagedCourses = (...args) => {
-  const swrRes = enhanceHook(useHooks(hooks => hooks.useManagedCourses)(...args))
-
-  return {
-    managedCourses: swrRes
-  }
-}
-
 export const useOwnedCourses = (...args) => {
   const swrRes = enhanceHook(useHooks(hooks => hooks.useOwnedCourses)(...args))
 
@@ -57,6 +49,14 @@ export const useOwnedCourse = (...args) => {
 
   return {
     ownedCourse: swrRes
+  }
+}
+
+export const useManagedCourses = (...args) => {
+  const swrRes = enhanceHook(useHooks(hooks => hooks.useManagedCourses)(...args))
+
+  return {
+    managedCourses: swrRes
   }
 }
 

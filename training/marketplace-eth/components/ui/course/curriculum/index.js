@@ -73,8 +73,8 @@ export default function Curriculum({locked, courseState, isLoading}) {
                               { courseState === "purchased" &&
                                 <Link href="/faq">
                                   <a
-                                    className="text-yellow-600 hover:text-yellow-900">
-                                      Waiting for activation
+                                    className="text-yellow-500 hover:text-yellow-900">
+                                    Waiting for activation...
                                   </a>
                                 </Link>
                               }
