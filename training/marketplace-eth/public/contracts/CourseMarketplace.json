@@ -8990,12 +8990,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0xe5Be4cAce0c5FC3061d04B06C6F7b66Cd50a5796",
-      "transactionHash": "0x310bf95a7b7c34eee782222b48845739d307536126ea8d154354a8e3ec8950c0"
+      "address": "0x6306CC6FedB098990E4e2C30DC40A6B3B87CC4bC",
+      "transactionHash": "0x07b567b439814a2a77e00811a8d38a2338d65cecd610f19ad550137477925ca6"
     }
   },
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-04-20T15:08:14.975Z",
+  "updatedAt": "2022-04-26T15:46:32.027Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
