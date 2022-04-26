@@ -1,10 +1,11 @@
 
 
+
 import { useEffect } from "react"
 import useSWR from "swr"
 
 const adminAddresses = {
-  "0x339bdac0ae9e5e35aace9f5c6f7b43b124a29ab7366e6eb669a8d2c840983646": true
+  "0xa075585816515fa3c6145fdd41bb53b18628df720548c9dd22709df630cacdc6": true
 }
 
 export const handler = (web3, provider) => () => {
@@ -16,17 +17,24 @@ export const handler = (web3, provider) => () => {
       const account = accounts[0]
 
       if (!account) {
-        throw new Error("Cannot retrieve an account. Please refresh the browser.")
+        throw new Error("Cannot retreive an account. Please refresh the browser.")
       }
+
       return account
     }
   )
 
   useEffect(() => {
+    console.log("SUBSCRIBING TO EVENT")
     provider &&
     provider.on("accountsChanged",
-      accounts => mutate(accounts[0] ?? null)
+      accounts => {
+        console.log("ON ACCOUNT DATA")
+        mutate(accounts[0] ?? null)
+      }
     )
+
+    console.log(provider)
   }, [provider])
 
   return {
