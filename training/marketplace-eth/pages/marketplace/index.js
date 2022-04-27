@@ -98,7 +98,7 @@ export default function Marketplace({courses}) {
                         Deativated
                       </Message>
                     }
-                    { o wned.state === "purchased" &&
+                    { owned.state === "purchased" &&
                       <Message type="warning" size="sm">
                         Waiting for Activation
                       </Message>

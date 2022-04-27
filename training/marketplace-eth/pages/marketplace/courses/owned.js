@@ -12,7 +12,7 @@ export default function OwnedCourses({courses}) {
   const router = useRouter()
   const { requireInstall } = useWeb3()
   const { account } = useAccount()
-  const { ownedCourses } = useOwnedCourses(courses, account.data)
+  const { ownedCourses } = useOwnedCourses(courses, account.data, network.data)
 
   return (
     <>

@@ -1,4 +1,3 @@
-
 const { createContext, useContext, useEffect, useState, useMemo } = require("react");
 
 import detectEthereumProvider from "@metamask/detect-provider";
@@ -7,6 +6,10 @@ import Web3 from "web3";
 import { setupHooks } from "./hooks/setupHooks";
 
 const Web3Context = createContext(null)
+
+const setListeners = provider => {
+  provider.on("chainChanged", _ => window.location.reload())
+}
 
 const createWeb3State = ({web3, provider, contract, isLoading}) => {
   return {
@@ -36,6 +39,7 @@ export default function Web3Provider({children}) {
         const web3 = new Web3(provider)
         const contract = await loadContract("CourseMarketplace", web3)
 
+        setListeners(provider)
         setWeb3Api(
           createWeb3State({
             web3,
