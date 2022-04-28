@@ -1,3 +1,9 @@
+const SIZE = {
+  sm: "p-2 text-base xs:px-4",
+  md: "p-3 text-base xs:px-4",
+  lg: "p-4 text-lg xs:px-8",
+}
+
 export default function Button({
   children,
   className,
