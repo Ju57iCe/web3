@@ -1,4 +1,4 @@
-import { useAccount, useOwnedCourses } from "@components/hooks/web3"
+import { useAccount, useNetwork, useOwnedCourses } from "@components/hooks/web3"
 import { Button, Message } from "@components/ui/common"
 import { OwnedCourseCard } from "@components/ui/course"
 import { BaseLayout } from "@components/ui/layout"
@@ -12,6 +12,7 @@ export default function OwnedCourses({courses}) {
   const router = useRouter()
   const { requireInstall } = useWeb3()
   const { account } = useAccount()
+  const { network } = useNetwork()
   const { ownedCourses } = useOwnedCourses(courses, account.data, network.data)
 
   return (

@@ -12,7 +12,9 @@ export default function Marketplace({courses}) {
   const { web3, contract, requireInstall } = useWeb3()
   const { hasConnectedWallet, isConnecting, account } = useWalletInfo()
   const { ownedCourses } = useOwnedCourses(courses, account.data)
+
   const [selectedCourse, setSelectedCourse] = useState(null)
+  const [isNewPurchase, setIsNewPurchase] = useState(true)
 
   const purchaseCourse = async order => {
     const hexCourseId = web3.utils.utf8ToHex(selectedCourse.id)
@@ -20,14 +22,22 @@ export default function Marketplace({courses}) {
       { type: "bytes16", value: hexCourseId },
       { type: "address", value: account.data }
     )
-    const emailHash = web3.utils.sha3(order.email)
-    const proof = web3.utils.soliditySha3(
-      { type: "bytes32", value: emailHash },
-      { type: "bytes32", value: orderHash }
-    )
 
     const value = web3.utils.toWei(String(order.price))
 
+    if  (isNewPurchase) {
+      const emailHash = web3.utils.sha3(order.email)
+      const proof = web3.utils.soliditySha3(
+        { type: "bytes32", value: emailHash },
+        { type: "bytes32", value: orderHash }
+      )
+      _purchaseCourse(hexCourseId, proof, value)
+    } else {
+      _repurchaseCourse(orderHash, value)
+    }
+  }
+
+  const _purchaseCourse = async (hexCourseId, proof, value) => {
     try {
       const result = await contract.methods.purchaseCourse(
         hexCourseId,
@@ -36,6 +46,19 @@ export default function Marketplace({courses}) {
       console.log(result)
     } catch {
       console.error("Purchase course: Operation has failed.")
+    }
+
+
+  }
+
+  const _repurchaseCourse = async (courseHash, value) => {
+    try {
+      const result = await contract.methods.repurchaseCourse(
+        courseHash,
+      ).send({from: account.data, value})
+      console.log(result)
+    } catch {
+      console.error("Repurchase course: Operation has failed.")
     }
   }
 
@@ -95,7 +118,10 @@ export default function Marketplace({courses}) {
                           <div className="ml-1">
                             <Button
                               disabled={false}
-                              onClick={() => alert("Re-Activating")}
+                              onClick={() => {
+                                setIsNewPurchase(false)
+                                setSelectedCourse(course)
+                              }}
                               variant="purple">
                               Fund to Activate
                             </Button>
@@ -123,8 +149,12 @@ export default function Marketplace({courses}) {
       { selectedCourse &&
         <OrderModal
           course={selectedCourse}
+          isNewPurchase={isNewPurchase}
           onSubmit={purchaseCourse}
-          onClose={() => setSelectedCourse(null)}
+          onClose={() => {
+            setSelectedCourse(null)
+            setIsNewPurchase(true)
+          }}
         />
       }
     </>
