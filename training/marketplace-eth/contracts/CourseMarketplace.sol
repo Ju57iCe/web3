@@ -17,6 +17,8 @@ contract CourseMarketplace {
     State state; // 1
   }
 
+  bool public isStopped = false;
+
   // mapping of courseHash to Course data
   mapping(bytes32 => Course) private ownedCourses;
 
@@ -54,12 +56,47 @@ contract CourseMarketplace {
     _;
   }
 
+  modifier onlyWhenNotStopped() {
+    require(!isStopped);
+    _;
+  }
+
+  modifier onlyWhenStopped() {
+    require(isStopped);
+    _;
+  }
+
+  receive() external payable {}
+
+  function withdraw(uint amount) external onlyOwner {
+    (bool success, ) = owner.call{value: amount}("");
+    require(success, "Transfer failed");
+  }
+
+  function emergencyWithdraw() external onlyOwner onlyWhenStopped {
+    (bool success, ) = owner.call{value: address(this).balance}("");
+    require(success, "Transfer failed");
+  }
+
+  function selfDestruct() external onlyOwner onlyWhenStopped {
+    selfdestruct(owner);
+  }
+
+  function stopContract() external onlyOwner {
+    isStopped = true;
+  }
+
+  function resumeContract() external onlyOwner {
+    isStopped = false;
+  }
+
   function purchaseCourse(
     bytes16 courseId, // 0x00000000000000000000000000003130
     bytes32 proof // 0x0000000000000000000000000000313000000000000000000000000000003130
   )
     external
     payable
+    onlyWhenNotStopped
   {
     bytes32 courseHash = keccak256(abi.encodePacked(courseId, msg.sender));
 
@@ -79,7 +116,7 @@ contract CourseMarketplace {
     });
   }
 
-  function repurchaseCourse(bytes32 courseHash) external payable
+  function repurchaseCourse(bytes32 courseHash) external payable onlyWhenNotStopped
   {
     if (!isCourseCreated(courseHash))
     {
@@ -102,7 +139,7 @@ contract CourseMarketplace {
     course.price = msg.value;
   }
 
-  function activateCourse(bytes32 courseHash) external onlyOwner
+  function activateCourse(bytes32 courseHash) external onlyOwner onlyWhenNotStopped
   {
     if (!isCourseCreated(courseHash))
     {
@@ -119,7 +156,7 @@ contract CourseMarketplace {
     course.state = State.Activated;
   }
 
-  function deactivateCourse(bytes32 courseHash) external onlyOwner
+  function deactivateCourse(bytes32 courseHash) external onlyOwner onlyWhenNotStopped
   {
     if (!isCourseCreated(courseHash))
     {
